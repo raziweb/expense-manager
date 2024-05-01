@@ -7,7 +7,7 @@ function App() {
       <div>
         <Navbar />
       </div>
-      <div className="mt-10 flex justify-center">
+      <div className="mt-2 flex justify-center">
         <TransactionShow />
       </div>
     </div>
