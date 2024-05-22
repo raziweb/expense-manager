@@ -1,11 +1,18 @@
-import TransactionShow from "../components/TransactionShow";
 import Dashboard from "../components/Dashboard";
 import { FaPlus } from "react-icons/fa";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import TransactionModal from "../components/TransactionModal";
+import TransactionContext from "../context/transactions";
+import TransactionList from "../components/TransactionList";
 
 function HomePage() {
   const [showTransactionModal, setShowTransactionModal] = useState(false);
+
+  const {fetchTransactions, transactions} = useContext(TransactionContext);
+
+  useEffect(() => {
+    fetchTransactions();
+  }, []);
 
   const handleAddClick = () => {
     setShowTransactionModal(true);
@@ -38,8 +45,8 @@ function HomePage() {
             </div>
           </div>
         </div>
-        <div className="mt-2 flex justify-center">
-          <TransactionShow />
+        <div>
+          <TransactionList transactions={transactions}/>
         </div>
       </div>
     </div>

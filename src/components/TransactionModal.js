@@ -1,11 +1,35 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-
 function TransactionModal({ handleCloseModal }) {
+  const [formData, setFormData] = useState({
+    transactionType: "expense",
+    category: "",
+    amount: "",
+    note: "",
+    date: new Date(),
+  });
+
+  const handleFormChange = (event) => {
+    const { name, value } = event.target;
+    const updatedFormData = { ...formData, [name]: value };
+    setFormData(updatedFormData);
+  };
+
+  const handleDateChange = (newDate) => {
+    const updatedFormData = { ...formData, date: newDate };
+    setFormData(updatedFormData);
+  };
+
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
+    console.log(formData);
+    handleCloseModal();
+  };
+
   useEffect(() => {
     document.body.classList.add("overflow-hidden");
     return () => {
@@ -19,7 +43,7 @@ function TransactionModal({ handleCloseModal }) {
         onClick={handleCloseModal}
         className="fixed inset-0 bg-gray-300 opacity-30"
       ></div>
-      <div className="fixed top-[15%] left-[5%] lg:left-[30%] md:left-[30%] bg-white p-6 w-[90%] lg:w-2/5 md:w-2/5 h-3/4 shadow">
+      <div className="fixed top-[15%] left-[5%] lg:left-[30%] md:left-[30%] bg-white p-6 w-[90%] lg:w-2/5 md:w-2/5 h-3/4 shadow rounded-lg">
         <div className="flex flex-row justify-start">
           <IoMdArrowRoundBack
             onClick={handleCloseModal}
@@ -27,51 +51,96 @@ function TransactionModal({ handleCloseModal }) {
           />
           <p className="text-xl">Add transaction</p>
         </div>
-        <form>
+        <form onSubmit={handleFormSubmit}>
           <div className="mt-4 flex flex-row justify-start">
-            <div className="border-2 mr-2 p-1">
-              <label htmlFor="expense" className="mr-1 cursor-pointer">Expense</label>
+            <div
+              className={`${
+                formData.transactionType === "expense" && "bg-red-400"
+              } border-2 p-1`}
+            >
+              <label htmlFor="expense" className="mr-1 cursor-pointer">
+                Expense
+              </label>
               <input
                 type="radio"
                 id="expense"
                 name="transactionType"
                 value="expense"
+                checked={formData.transactionType === "expense"}
+                onChange={handleFormChange}
+                className="appearance-none"
               />
             </div>
-            <div className="border-2 mr-2 p-1">
-              <label htmlFor="income" className="mr-1 cursor-pointer">Income</label>
+            <div
+              className={`${
+                formData.transactionType === "income" && "bg-green-400"
+              } border-2 mr-2 p-1`}
+            >
+              <label htmlFor="income" className="mr-1 cursor-pointer">
+                Income
+              </label>
               <input
                 type="radio"
                 id="income"
                 name="transactionType"
                 value="income"
+                checked={formData.transactionType === "income"}
+                onChange={handleFormChange}
+                className="appearance-none"
               />
             </div>
           </div>
           <div className="mt-4 grid">
+            <label className="mr-2">Category:</label>
+            <select
+              name="category"
+              className="border-2 p-1"
+              value={formData.category}
+              onChange={handleFormChange}
+              required
+            >
+              <option value="">select</option>
+              <option value="Utilities">Utilities</option>
+              <option value="Entertainment">Entertainment</option>
+              <option value="Rent">Rent</option>
+              <option value="Food and dining">Food and dining</option>
+            </select>
+          </div>
+          <div className="mt-4 grid">
             <label className="mr-2">Amount:</label>
-            <input type="number" name="amount" className="border-2 p-1" placeholder="Rupees"/>
+            <input
+              type="number"
+              name="amount"
+              className="border-2 p-1"
+              placeholder="Rupees"
+              value={formData.amount}
+              onChange={handleFormChange}
+              required
+            />
           </div>
           <div className="mt-4 grid">
             <label className="mr-2">Note:</label>
-            <input type="text" name="note" className="border-2 p-1" placeholder="Add a note"/>
-          </div>
-          <div className="mt-4 grid">
-            <label className="mr-2">Category:</label>
-            <select name="category" className="border-2 p-1">
-              <option value="">select</option>
-              <option>Utilities</option>
-              <option>Entertainment</option>
-              <option>Rent</option>
-              <option>Food and dining</option>
-            </select>
+            <input
+              type="text"
+              name="note"
+              className="border-2 p-1"
+              placeholder="Add a note"
+              value={formData.note}
+              onChange={handleFormChange}
+            />
           </div>
           <div className="mt-4">
             <label className="mr-2">Date</label>
-            <DatePicker selected={new Date()} className="border-2 p-1"/>
+            <DatePicker
+              selected={formData.date}
+              onChange={handleDateChange}
+              className="border-2 p-1"
+            />
           </div>
           <div className="mt-4 flex flex-row justify-center">
-            <button className="border shadow-md px-4 py-1 bg-blue-500 rounded-md text-lg">Add</button>
+            <button className="border shadow-md px-4 py-1 bg-blue-500 rounded-md text-lg">
+              Add
+            </button>
           </div>
         </form>
       </div>
