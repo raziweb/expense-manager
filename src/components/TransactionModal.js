@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import TransactionContext from "../context/transactions";
 
 function TransactionModal({ handleCloseModal }) {
   const [formData, setFormData] = useState({
@@ -12,6 +13,8 @@ function TransactionModal({ handleCloseModal }) {
     note: "",
     date: new Date(),
   });
+
+  const { categories, addTransaction } = useContext(TransactionContext);
 
   const handleFormChange = (event) => {
     const { name, value } = event.target;
@@ -26,7 +29,7 @@ function TransactionModal({ handleCloseModal }) {
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    console.log(formData);
+    addTransaction(formData);
     handleCloseModal();
   };
 
@@ -36,6 +39,26 @@ function TransactionModal({ handleCloseModal }) {
       document.body.classList.remove("overflow-hidden");
     };
   }, []);
+
+  const renderedExpenseCategories = categories.map((category) => {
+    if (category.type === "expense") {
+      return (
+        <option key={category.id} value={category.id}>
+          {category.name}
+        </option>
+      );
+    }
+  });
+
+  const renderedIncomeCategories = categories.map((category) => {
+    if (category.type === "income") {
+      return (
+        <option key={category.id} value={category.id}>
+          {category.name}
+        </option>
+      );
+    }
+  });
 
   return ReactDOM.createPortal(
     <div>
@@ -56,9 +79,9 @@ function TransactionModal({ handleCloseModal }) {
             <div
               className={`${
                 formData.transactionType === "expense" && "bg-red-400"
-              } border-2 p-1`}
+              } mr-2 border-1 p-1 rounded-lg shadow`}
             >
-              <label htmlFor="expense" className="mr-1 cursor-pointer">
+              <label htmlFor="expense" className="mx-1 cursor-pointer">
                 Expense
               </label>
               <input
@@ -74,9 +97,9 @@ function TransactionModal({ handleCloseModal }) {
             <div
               className={`${
                 formData.transactionType === "income" && "bg-green-400"
-              } border-2 mr-2 p-1`}
+              } border-1 mr-2 p-1 rounded-lg shadow`}
             >
-              <label htmlFor="income" className="mr-1 cursor-pointer">
+              <label htmlFor="income" className="mx-1 cursor-pointer">
                 Income
               </label>
               <input
@@ -100,10 +123,10 @@ function TransactionModal({ handleCloseModal }) {
               required
             >
               <option value="">select</option>
-              <option value="Utilities">Utilities</option>
-              <option value="Entertainment">Entertainment</option>
-              <option value="Rent">Rent</option>
-              <option value="Food and dining">Food and dining</option>
+              {formData.transactionType === "expense" &&
+                renderedExpenseCategories}
+              {formData.transactionType === "income" &&
+                renderedIncomeCategories}
             </select>
           </div>
           <div className="mt-4 grid">

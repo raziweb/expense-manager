@@ -13,9 +13,9 @@ function Dashboard() {
 
   for(const transaction of transactions) {
     if(transaction.category.type === "income"){
-      income += transaction.amount;
+      income += Number(transaction.amount);
     } else {
-      expense += transaction.amount;
+      expense += Number(transaction.amount);
     }
   }
 
