@@ -1,11 +1,12 @@
 import { useContext, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import { MdDelete } from "react-icons/md";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import TransactionContext from "../context/transactions";
 
-function TransactionModal({ handleCloseModal }) {
+function TransactionModal({ handleCloseModal, transaction }) {
   const [formData, setFormData] = useState({
     transactionType: "expense",
     category: "",
@@ -14,7 +15,11 @@ function TransactionModal({ handleCloseModal }) {
     date: new Date(),
   });
 
-  const { categories, addTransaction } = useContext(TransactionContext);
+  const headingText = transaction ? "Edit transaction" : "Add transaction";
+  const buttonText = transaction ? "Edit" : "Add";
+
+  const { categories, addTransaction, editTransaction, deleteTransaction } =
+    useContext(TransactionContext);
 
   const handleFormChange = (event) => {
     const { name, value } = event.target;
@@ -29,11 +34,30 @@ function TransactionModal({ handleCloseModal }) {
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    addTransaction(formData);
+    if (transaction) {
+      editTransaction(transaction.id, formData);
+    } else {
+      addTransaction(formData);
+    }
     handleCloseModal();
   };
 
+  const handleDelete = () => {
+    deleteTransaction(transaction.id);
+    handleCloseModal();
+  }
+
   useEffect(() => {
+    if (transaction) {
+      const updatedFormData = {
+        transactionType: transaction.category.type,
+        category: transaction.category.id,
+        amount: transaction.amount,
+        note: transaction.note,
+        date: transaction.date,
+      };
+      setFormData(updatedFormData);
+    }
     document.body.classList.add("overflow-hidden");
     return () => {
       document.body.classList.remove("overflow-hidden");
@@ -67,12 +91,15 @@ function TransactionModal({ handleCloseModal }) {
         className="fixed inset-0 bg-gray-300 opacity-30"
       ></div>
       <div className="fixed top-[15%] left-[5%] lg:left-[30%] md:left-[30%] bg-white p-6 w-[90%] lg:w-2/5 md:w-2/5 h-3/4 shadow rounded-lg">
-        <div className="flex flex-row justify-start">
-          <IoMdArrowRoundBack
-            onClick={handleCloseModal}
-            className="text-2xl my-auto mr-2 cursor-pointer"
-          />
-          <p className="text-xl">Add transaction</p>
+        <div className="flex flex-row justify-between">
+          <div className="flex flex-row justify-start">
+            <IoMdArrowRoundBack
+              onClick={handleCloseModal}
+              className="text-2xl my-auto mr-2 cursor-pointer"
+            />
+            <p className="text-xl">{headingText}</p>
+          </div>
+          {transaction && <MdDelete onClick={handleDelete} className="text-2xl my-auto cursor-pointer"/>}
         </div>
         <form onSubmit={handleFormSubmit}>
           <div className="mt-4 flex flex-row justify-start">
@@ -162,7 +189,7 @@ function TransactionModal({ handleCloseModal }) {
           </div>
           <div className="mt-4 flex flex-row justify-center">
             <button className="border shadow-md px-4 py-1 bg-blue-500 rounded-md text-lg">
-              Add
+              {buttonText}
             </button>
           </div>
         </form>
