@@ -40,9 +40,7 @@ function TransactionShow({ transaction }) {
           </div>
           {/* <div className="ml-4 my-auto text-xl">Netflix</div> */}
         </div>
-        <div className="mx-4 my-auto text-sm">
-          {transaction.date.toDateString()}
-        </div>
+        <div className="mx-4 my-auto text-sm">{transaction.date}</div>
       </div>
       {showEditTransactionModal && (
         <TransactionModal

@@ -1,4 +1,5 @@
 import { createContext, useState } from "react";
+import axios from "axios";
 
 const TransactionContext = createContext();
 
@@ -6,65 +7,10 @@ function TransactionProvider({ children }) {
   const [transactions, setTransactions] = useState([]);
   const [categories, setCategories] = useState([]);
 
-  const fetchTransactions = () => {
-    setTransactions([
-      {
-        id: 1,
-        amount: 199,
-        note: "Netflix",
-        date: new Date(),
-        category: { id: 1, type: "expense", name: "entertainment" },
-      },
-      {
-        id: 2,
-        amount: 540,
-        note: "Electricity bill",
-        date: new Date(),
-        category: { id: 2, type: "expense", name: "utilities" },
-      },
-      {
-        id: 3,
-        amount: 8500,
-        note: "May Rent",
-        date: new Date(),
-        category: { id: 3, type: "expense", name: "rent" },
-      },
-      {
-        id: 4,
-        amount: 250,
-        note: "Shawarma",
-        date: new Date(),
-        category: { id: 4, type: "expense", name: "food and dining" },
-      },
-      {
-        id: 5,
-        amount: 150,
-        note: "Uber",
-        date: new Date(),
-        category: { id: 5, type: "expense", name: "transport" },
-      },
-      {
-        id: 6,
-        amount: 52000,
-        note: "Salary",
-        date: new Date(),
-        category: { id: 6, type: "income", name: "salary" },
-      },
-      {
-        id: 7,
-        amount: 5000,
-        note: "consulting",
-        date: new Date(),
-        category: { id: 7, type: "income", name: "freelancing" },
-      },
-      {
-        id: 8,
-        amount: 400,
-        note: "dividends",
-        date: new Date(),
-        category: { id: 8, type: "income", name: "others" },
-      },
-    ]);
+  const fetchTransactions = async () => {
+    const response = await axios.get("http://localhost:8080/transactions");
+    setTransactions(response.data.reverse());
+
     setCategories([
       { id: 1, type: "expense", name: "entertainment" },
       { id: 2, type: "expense", name: "utilities" },
@@ -77,43 +23,51 @@ function TransactionProvider({ children }) {
     ]);
   };
 
-  const addTransaction = (formData) => {
-    const category = categories.find((category) => {
-      if (formData.category == category.id) {
-        return category;
-      }
-    });
+  function sqlFormatDate(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
 
+  const addTransaction = async (formData) => {
     const newTransaction = {
-      id: Math.round(Math.random() * 100000),
-      amount: formData.amount,
+      amount: Number(formData.amount),
       note: formData.note,
-      date: formData.date,
-      category: category,
+      date: sqlFormatDate(formData.date),
+      categoryId: Number(formData.category),
     };
 
-    const updatedTransactions = [newTransaction, ...transactions];
+    const response = await axios.post(
+      "http://localhost:8080/transactions",
+      newTransaction
+    );
+
+    const updatedTransactions = [response.data, ...transactions];
     setTransactions(updatedTransactions);
   };
 
-  const editTransaction = (id, formData) => {
-    const category = categories.find((category) => {
-      if (formData.category == category.id) {
-        return category;
-      }
-    });
+  const editTransaction = async (id, formData) => {
+    const date =
+      typeof formData.date === "object"
+        ? sqlFormatDate(formData.date)
+        : formData.date;
 
     const editedTransaction = {
-      id: id,
-      amount: formData.amount,
+      amount: Number(formData.amount),
       note: formData.note,
-      date: formData.date,
-      category: category,
+      date: date,
+      categoryId: Number(formData.category),
     };
 
+    const response = await axios.put(
+      `http://localhost:8080/transactions/${id}`,
+      editedTransaction
+    );
+
     const updatedTransactions = transactions.map((transaction) => {
-      if (transaction.id == editedTransaction.id) {
-        return editedTransaction;
+      if (transaction.id == response.data.id) {
+        return response.data;
       }
       return transaction;
     });
@@ -121,7 +75,11 @@ function TransactionProvider({ children }) {
     setTransactions(updatedTransactions);
   };
 
-  const deleteTransaction = (id) => {
+  const deleteTransaction = async (id) => {
+    const response = await axios.delete(
+      `http://localhost:8080/transactions/${id}`
+    );
+
     const updatedTransactions = transactions.filter((transaction) => {
       return transaction.id != id;
     });

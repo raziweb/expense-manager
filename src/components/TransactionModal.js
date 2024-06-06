@@ -45,7 +45,7 @@ function TransactionModal({ handleCloseModal, transaction }) {
   const handleDelete = () => {
     deleteTransaction(transaction.id);
     handleCloseModal();
-  }
+  };
 
   useEffect(() => {
     if (transaction) {
@@ -90,7 +90,7 @@ function TransactionModal({ handleCloseModal, transaction }) {
         onClick={handleCloseModal}
         className="fixed inset-0 bg-gray-300 opacity-30"
       ></div>
-      <div className="fixed top-[15%] left-[5%] lg:left-[30%] md:left-[30%] bg-white p-6 w-[90%] lg:w-2/5 md:w-2/5 h-3/4 shadow rounded-lg">
+      <div className="fixed top-[15%] left-[5%] lg:left-[30%] md:left-[30%] bg-white p-6 w-[90%] lg:w-2/5 md:w-2/5 shadow rounded-lg">
         <div className="flex flex-row justify-between">
           <div className="flex flex-row justify-start">
             <IoMdArrowRoundBack
@@ -99,7 +99,12 @@ function TransactionModal({ handleCloseModal, transaction }) {
             />
             <p className="text-xl">{headingText}</p>
           </div>
-          {transaction && <MdDelete onClick={handleDelete} className="text-2xl my-auto cursor-pointer"/>}
+          {transaction && (
+            <MdDelete
+              onClick={handleDelete}
+              className="text-2xl my-auto cursor-pointer"
+            />
+          )}
         </div>
         <form onSubmit={handleFormSubmit}>
           <div className="mt-4 flex flex-row justify-start">
