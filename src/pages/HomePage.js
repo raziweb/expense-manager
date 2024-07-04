@@ -44,7 +44,7 @@ function HomePage() {
       <div className="mt-24 lg:mt-32">
         <div className="mt-2 flex justify-center">
           <div className="w-full md:w-3/4 lg:w-1/2 mx-2 flex flex-row justify-between">
-            <div className="text-md lg:text-lg">Recent transactions</div>
+            <div className="text-md lg:text-lg">This month</div>
             <div className="text-blue-500 underline cursor-pointer text-md lg:text-lg">
               see all
             </div>

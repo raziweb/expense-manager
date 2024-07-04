@@ -8,7 +8,7 @@ function TransactionProvider({ children }) {
   const [categories, setCategories] = useState([]);
 
   const fetchTransactions = async () => {
-    const response = await axios.get("http://localhost:8080/transactions");
+    const response = await axios.get("http://localhost:8080/transactions", { headers: {"Authorization" : `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkYW4iLCJpYXQiOjE3MjAwODQ5MTEsImV4cCI6MTcyMDEyMDkxMX0.N6YpeT4q0bQ9wEG47FebBW0R3gzLnVGCGUJg_rJdpI0`} });
     setTransactions(response.data.reverse());
 
     setCategories([
