@@ -1,15 +1,33 @@
 import { createContext, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const TransactionContext = createContext();
 
 function TransactionProvider({ children }) {
   const [transactions, setTransactions] = useState([]);
   const [categories, setCategories] = useState([]);
+  const navigate = useNavigate();
+
+  const token = localStorage.getItem("token");
+
+  const authHeader = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
 
   const fetchTransactions = async () => {
-    const response = await axios.get("http://localhost:8080/transactions", { headers: {"Authorization" : `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkYW4iLCJpYXQiOjE3MjAwODQ5MTEsImV4cCI6MTcyMDEyMDkxMX0.N6YpeT4q0bQ9wEG47FebBW0R3gzLnVGCGUJg_rJdpI0`} });
-    setTransactions(response.data.reverse());
+    try {
+      const response = await axios.get(
+        "http://localhost:8080/transactions",
+        authHeader
+      );
+      setTransactions(response.data.reverse());
+    } catch (e) {
+      console.log("cannot fetch transactions");
+      navigate("/login");
+    }
 
     setCategories([
       { id: 1, type: "expense", name: "entertainment" },
@@ -40,7 +58,8 @@ function TransactionProvider({ children }) {
 
     const response = await axios.post(
       "http://localhost:8080/transactions",
-      newTransaction
+      newTransaction,
+      authHeader
     );
 
     const updatedTransactions = [response.data, ...transactions];
@@ -62,7 +81,8 @@ function TransactionProvider({ children }) {
 
     const response = await axios.put(
       `http://localhost:8080/transactions/${id}`,
-      editedTransaction
+      editedTransaction,
+      authHeader
     );
 
     const updatedTransactions = transactions.map((transaction) => {
@@ -77,7 +97,8 @@ function TransactionProvider({ children }) {
 
   const deleteTransaction = async (id) => {
     const response = await axios.delete(
-      `http://localhost:8080/transactions/${id}`
+      `http://localhost:8080/transactions/${id}`,
+      authHeader
     );
 
     const updatedTransactions = transactions.filter((transaction) => {

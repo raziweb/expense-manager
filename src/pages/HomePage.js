@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import TransactionModal from "../components/TransactionModal";
 import TransactionContext from "../context/transactions";
 import TransactionList from "../components/TransactionList";
+import Navbar from "../components/Navbar";
 
 function HomePage() {
   const [showTransactionModal, setShowTransactionModal] = useState(false);
@@ -24,6 +25,9 @@ function HomePage() {
 
   return (
     <div>
+      <div>
+        <Navbar />
+      </div>
       <div className="flex justify-center">
         <Dashboard />
       </div>

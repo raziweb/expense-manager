@@ -9,27 +9,22 @@ import { UserContext, UserProvider } from "./context/user";
 import { useContext } from "react";
 
 function App() {
-  const {user} = useContext(UserContext);
-  console.log(user);
   return (
     <div className="pt-[70px]">
-        <div>
-          {user != null && <Navbar />}
-        </div>
-        <Router>
-          <Routes>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route
-              path="/"
-              element={
-                <TransactionProvider>
-                  <HomePage />
-                </TransactionProvider>
-              }
-            />
-          </Routes>
-        </Router>
+      <Router>
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route
+            path="/"
+            element={
+              <TransactionProvider>
+                <HomePage />
+              </TransactionProvider>
+            }
+          />
+        </Routes>
+      </Router>
     </div>
   );
 }
