@@ -1,6 +1,7 @@
-import { createContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "./user";
 
 const TransactionContext = createContext();
 
@@ -8,6 +9,7 @@ function TransactionProvider({ children }) {
   const [transactions, setTransactions] = useState([]);
   const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
+  const { user } = useContext(UserContext); 
 
   const token = localStorage.getItem("token");
 
@@ -54,6 +56,7 @@ function TransactionProvider({ children }) {
       note: formData.note,
       date: sqlFormatDate(formData.date),
       categoryId: Number(formData.category),
+      userId: user.userId
     };
 
     const response = await axios.post(
@@ -77,6 +80,7 @@ function TransactionProvider({ children }) {
       note: formData.note,
       date: date,
       categoryId: Number(formData.category),
+      userId: user.userId
     };
 
     const response = await axios.put(
