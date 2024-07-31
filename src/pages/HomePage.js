@@ -5,13 +5,17 @@ import TransactionModal from "../components/TransactionModal";
 import TransactionContext from "../context/transactions";
 import TransactionList from "../components/TransactionList";
 import Navbar from "../components/Navbar";
+import { UserContext } from "../context/user";
 
 function HomePage() {
   const [showTransactionModal, setShowTransactionModal] = useState(false);
 
   const { fetchTransactions, transactions } = useContext(TransactionContext);
+  const { setUser } = useContext(UserContext);
 
   useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    setUser(user);
     fetchTransactions();
   }, []);
 

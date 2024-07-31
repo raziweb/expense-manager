@@ -35,6 +35,7 @@ function LoginPage() {
       };
       setUser(user);
       localStorage.setItem("token", response.data.jwt);
+      localStorage.setItem("user", JSON.stringify(user));
       navigate("/");
     } catch (e) {
       setPassword("");

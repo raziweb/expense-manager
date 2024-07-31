@@ -22,10 +22,10 @@ function TransactionProvider({ children }) {
   const fetchTransactions = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8080/transactions",
+        "http://localhost:8080/hometransactions",
         authHeader
       );
-      setTransactions(response.data.reverse());
+      setTransactions(response.data);
     } catch (e) {
       console.log("cannot fetch transactions");
       navigate("/login");
