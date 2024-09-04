@@ -8,6 +8,7 @@ import RegisterPage from "./pages/RegisterPage";
 import { UserContext, UserProvider } from "./context/user";
 import { useContext } from "react";
 import SpendingAnalysis from "./pages/SpendingAnalysis";
+import TransactionsPage from "./pages/TransactionsPage";
 
 function App() {
   return (
@@ -29,6 +30,14 @@ function App() {
             element={
               <TransactionProvider>
                 <SpendingAnalysis />
+              </TransactionProvider>
+            }
+          />
+          <Route
+            path="/transactions"
+            element={
+              <TransactionProvider>
+                <TransactionsPage />
               </TransactionProvider>
             }
           />

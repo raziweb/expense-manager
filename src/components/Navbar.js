@@ -28,7 +28,7 @@ function Navbar() {
           <span className="hidden md:inline">Analysis</span>{" "}
           <FaChartPie className="inline text-2xl md:text-base" />
         </div>
-        <div className="mr-10 cursor-pointer">
+        <div onClick={() => {navigate('/transactions')}} className="mr-10 cursor-pointer">
           <span className="hidden md:inline">Transactions</span>{" "}
           <GrTransaction className="inline text-2xl md:text-base" />
         </div>
