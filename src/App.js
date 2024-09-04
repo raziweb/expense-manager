@@ -7,6 +7,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import { UserContext, UserProvider } from "./context/user";
 import { useContext } from "react";
+import SpendingAnalysis from "./pages/SpendingAnalysis";
 
 function App() {
   return (
@@ -20,6 +21,14 @@ function App() {
             element={
               <TransactionProvider>
                 <HomePage />
+              </TransactionProvider>
+            }
+          />
+          <Route
+            path="/analysis"
+            element={
+              <TransactionProvider>
+                <SpendingAnalysis />
               </TransactionProvider>
             }
           />

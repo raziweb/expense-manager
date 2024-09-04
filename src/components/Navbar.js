@@ -19,13 +19,13 @@ function Navbar() {
   }
 
   return (
-    <nav className="fixed top-0 w-full bg-stone-900 text-slate-300 flex flex-row justify-between p-4">
+    <nav className="fixed z-40 top-0 w-full bg-stone-900 text-slate-300 flex flex-row justify-between p-4">
       <div className="flex flex-row">
-        <div className="mx-10 cursor-pointer text-2xl">
+        <div onClick={() => {navigate('/')}} className="mx-10 cursor-pointer text-2xl">
           <GoHome />
         </div>
-        <div className="mr-10 cursor-pointer">
-          <span className="hidden md:inline">Spending Analysis</span>{" "}
+        <div onClick={() => {navigate('/analysis')}} className="mr-10 cursor-pointer">
+          <span className="hidden md:inline">Analysis</span>{" "}
           <FaChartPie className="inline text-2xl md:text-base" />
         </div>
         <div className="mr-10 cursor-pointer">

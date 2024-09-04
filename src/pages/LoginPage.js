@@ -49,7 +49,7 @@ function LoginPage() {
       <div className="flex justify-center">
         <form
           onSubmit={handleFormSubmit}
-          className="border p-4 rounded-lg shadow-lg flex-col"
+          className="border p-4 rounded-lg shadow-lg flex-col w-[280px]"
         >
           <div className="flex flex-row justify-between m-2 mb-4">
             <p className="text-2xl">Login</p>
@@ -60,7 +60,7 @@ function LoginPage() {
               type="text"
               value={username}
               onChange={handleUsernameChange}
-              className="p-1 border rounded"
+              className="p-1 border rounded w-full"
               required
             />
           </div>
@@ -70,13 +70,13 @@ function LoginPage() {
               type="password"
               value={password}
               onChange={handlePasswordChange}
-              className="p-1 border rounded"
+              className="p-1 border rounded w-full"
               required
             />
           </div>
           <div className="m-2 flex justify-center">
-            <button className="p-1 bg-blue-400 shadow-md rounded">
-              Submit
+            <button className="w-full p-1 bg-blue-800 shadow-md rounded text-white mt-2">
+              Login
             </button>
           </div>
         </form>

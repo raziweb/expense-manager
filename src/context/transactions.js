@@ -26,6 +26,7 @@ function TransactionProvider({ children }) {
         authHeader
       );
       setTransactions(response.data);
+      console.log("fetch transactions triggered");
     } catch (e) {
       console.log("cannot fetch transactions");
       navigate("/login");
@@ -112,6 +113,20 @@ function TransactionProvider({ children }) {
     setTransactions(updatedTransactions);
   };
 
+  const fetchTransactionsForGivenMonth = async (year, month) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/transactions/${year}/${month}`,
+        authHeader
+      );
+      setTransactions(response.data);
+      // console.log(response.data);
+    } catch (e) {
+      console.log("cannot fetch transactions");
+      navigate("/login");
+    }
+  }
+
   const valueToShare = {
     transactions: transactions,
     categories: categories,
@@ -119,6 +134,7 @@ function TransactionProvider({ children }) {
     addTransaction,
     editTransaction,
     deleteTransaction,
+    fetchTransactionsForGivenMonth
   };
 
   return (

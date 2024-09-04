@@ -48,10 +48,10 @@ function RegisterPage() {
       <div className="flex justify-center">
         <form
           onSubmit={handleFormSubmit}
-          className="border p-4 rounded-lg shadow-lg flex-col"
+          className="border p-4 rounded-lg shadow-lg flex-col w-[280px]"
         >
           <div className="flex flex-row justify-between m-2 mb-4">
-            <p className="text-2xl">Sign-up</p>
+            <p className="text-2xl">Register your account</p>
           </div>
           <div className="m-2 flex-col">
             <label className="block text-md">Username:</label>
@@ -59,7 +59,7 @@ function RegisterPage() {
               type="text"
               value={username}
               onChange={handleUsernameChange}
-              className="p-1 border rounded"
+              className="p-1 border rounded w-full"
               required
             />
           </div>
@@ -69,13 +69,13 @@ function RegisterPage() {
               type="password"
               value={password}
               onChange={handlePasswordChange}
-              className="p-1 border rounded"
+              className="p-1 border rounded w-full"
               required
             />
           </div>
           <div className="m-2 flex justify-center">
-            <button className="p-1 bg-blue-400 shadow-md rounded">
-              Sign Up
+            <button className="w-full p-1 bg-blue-800 shadow-md rounded text-white mt-2">
+              Continue
             </button>
           </div>
         </form>
