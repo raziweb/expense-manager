@@ -8,6 +8,8 @@ const TransactionContext = createContext();
 function TransactionProvider({ children }) {
   const [transactions, setTransactions] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [displayedDate, setDisplayedDate] = useState(new Date());
+
   const navigate = useNavigate();
   const { user } = useContext(UserContext); 
 
@@ -42,6 +44,8 @@ function TransactionProvider({ children }) {
       { id: 7, type: "income", name: "freelancing" },
       { id: 8, type: "income", name: "others" },
     ]);
+
+    setDisplayedDate(new Date());
   };
 
   function sqlFormatDate(date) {
@@ -127,6 +131,26 @@ function TransactionProvider({ children }) {
     }
   }
 
+  const previousMonth = () => {
+    const previousMonthDate = new Date(displayedDate);
+    previousMonthDate.setMonth(previousMonthDate.getMonth() - 1);
+    setDisplayedDate(previousMonthDate);
+    fetchTransactionsForGivenMonth(
+      previousMonthDate.getFullYear(),
+      previousMonthDate.getMonth() + 1
+    );
+  };
+
+  const nextMonth = () => {
+    const nextMonthDate = new Date(displayedDate);
+    nextMonthDate.setMonth(nextMonthDate.getMonth() + 1);
+    setDisplayedDate(nextMonthDate);
+    fetchTransactionsForGivenMonth(
+      nextMonthDate.getFullYear(),
+      nextMonthDate.getMonth() + 1
+    );
+  };
+
   const valueToShare = {
     transactions: transactions,
     categories: categories,
@@ -134,7 +158,10 @@ function TransactionProvider({ children }) {
     addTransaction,
     editTransaction,
     deleteTransaction,
-    fetchTransactionsForGivenMonth
+    fetchTransactionsForGivenMonth,
+    displayedDate,
+    previousMonth,
+    nextMonth
   };
 
   return (

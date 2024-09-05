@@ -5,9 +5,9 @@ import { ResponsiveContainer, Tooltip, PieChart, Pie } from "recharts";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 function SpendingAnalysis() {
-  const [displayedDate, setDisplayedDate] = useState(new Date());
+  // const [displayedDate, setDisplayedDate] = useState(new Date());
 
-  const { transactions, fetchTransactionsForGivenMonth } =
+  const { transactions, fetchTransactionsForGivenMonth, displayedDate, previousMonth, nextMonth } =
     useContext(TransactionContext);
 
   const expenseData = transactions
@@ -68,25 +68,25 @@ function SpendingAnalysis() {
     totalIncome += income.amount;
   });
 
-  const previousMonth = () => {
-    const previousMonthDate = new Date(displayedDate);
-    previousMonthDate.setMonth(previousMonthDate.getMonth() - 1);
-    setDisplayedDate(previousMonthDate);
-    fetchTransactionsForGivenMonth(
-      previousMonthDate.getFullYear(),
-      previousMonthDate.getMonth() + 1
-    );
-  };
+  // const previousMonth = () => {
+  //   const previousMonthDate = new Date(displayedDate);
+  //   previousMonthDate.setMonth(previousMonthDate.getMonth() - 1);
+  //   setDisplayedDate(previousMonthDate);
+  //   fetchTransactionsForGivenMonth(
+  //     previousMonthDate.getFullYear(),
+  //     previousMonthDate.getMonth() + 1
+  //   );
+  // };
 
-  const nextMonth = () => {
-    const nextMonthDate = new Date(displayedDate);
-    nextMonthDate.setMonth(nextMonthDate.getMonth() + 1);
-    setDisplayedDate(nextMonthDate);
-    fetchTransactionsForGivenMonth(
-      nextMonthDate.getFullYear(),
-      nextMonthDate.getMonth() + 1
-    );
-  };
+  // const nextMonth = () => {
+  //   const nextMonthDate = new Date(displayedDate);
+  //   nextMonthDate.setMonth(nextMonthDate.getMonth() + 1);
+  //   setDisplayedDate(nextMonthDate);
+  //   fetchTransactionsForGivenMonth(
+  //     nextMonthDate.getFullYear(),
+  //     nextMonthDate.getMonth() + 1
+  //   );
+  // };
 
   const expenseTable = groupedExpensesData.map((data, index) => (
     <div key={index} className="flex justify-between px-16">
@@ -111,7 +111,7 @@ function SpendingAnalysis() {
       <div className="flex justify-center my-4">
         <div className="flex justify-around w-full md:w-3/4">
           <FaChevronLeft
-            onClick={previousMonth}
+            onClick={() => {previousMonth()}}
             className="text-2xl my-auto cursor-pointer"
           />
           <p className="text-xl">
@@ -119,7 +119,7 @@ function SpendingAnalysis() {
             {displayedDate.getFullYear()}
           </p>
           <FaChevronRight
-            onClick={nextMonth}
+            onClick={() => {nextMonth()}}
             className="text-2xl my-auto cursor-pointer"
           />
         </div>

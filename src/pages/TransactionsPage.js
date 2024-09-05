@@ -5,30 +5,30 @@ import Navbar from "../components/Navbar";
 import TransactionList from "../components/TransactionList";
 
 function TransactionsPage() {
-  const [displayedDate, setDisplayedDate] = useState(new Date());
+  // const [displayedDate, setDisplayedDate] = useState(new Date());
 
-  const { transactions, fetchTransactionsForGivenMonth } =
+  const { transactions, fetchTransactionsForGivenMonth, displayedDate, previousMonth, nextMonth } =
     useContext(TransactionContext);
 
-  const previousMonth = () => {
-    const previousMonthDate = new Date(displayedDate);
-    previousMonthDate.setMonth(previousMonthDate.getMonth() - 1);
-    setDisplayedDate(previousMonthDate);
-    fetchTransactionsForGivenMonth(
-      previousMonthDate.getFullYear(),
-      previousMonthDate.getMonth() + 1
-    );
-  };
+  // const previousMonth = () => {
+  //   const previousMonthDate = new Date(displayedDate);
+  //   previousMonthDate.setMonth(previousMonthDate.getMonth() - 1);
+  //   setDisplayedDate(previousMonthDate);
+  //   fetchTransactionsForGivenMonth(
+  //     previousMonthDate.getFullYear(),
+  //     previousMonthDate.getMonth() + 1
+  //   );
+  // };
 
-  const nextMonth = () => {
-    const nextMonthDate = new Date(displayedDate);
-    nextMonthDate.setMonth(nextMonthDate.getMonth() + 1);
-    setDisplayedDate(nextMonthDate);
-    fetchTransactionsForGivenMonth(
-      nextMonthDate.getFullYear(),
-      nextMonthDate.getMonth() + 1
-    );
-  };
+  // const nextMonth = () => {
+  //   const nextMonthDate = new Date(displayedDate);
+  //   nextMonthDate.setMonth(nextMonthDate.getMonth() + 1);
+  //   setDisplayedDate(nextMonthDate);
+  //   fetchTransactionsForGivenMonth(
+  //     nextMonthDate.getFullYear(),
+  //     nextMonthDate.getMonth() + 1
+  //   );
+  // };
 
   return (
     <div>
@@ -39,7 +39,7 @@ function TransactionsPage() {
       <div className="flex justify-center my-4">
         <div className="flex justify-around w-full md:w-3/4">
           <FaChevronLeft
-            onClick={previousMonth}
+            onClick={() => { previousMonth() }}
             className="text-2xl my-auto cursor-pointer"
           />
           <p className="text-xl">
@@ -47,7 +47,7 @@ function TransactionsPage() {
             {displayedDate.getFullYear()}
           </p>
           <FaChevronRight
-            onClick={nextMonth}
+            onClick={() => {nextMonth()}}
             className="text-2xl my-auto cursor-pointer"
           />
         </div>
