@@ -6,12 +6,15 @@ import TransactionContext from "../context/transactions";
 import TransactionList from "../components/TransactionList";
 import Navbar from "../components/Navbar";
 import { UserContext } from "../context/user";
+import { useNavigate } from "react-router-dom";
 
 function HomePage() {
   const [showTransactionModal, setShowTransactionModal] = useState(false);
 
   const { fetchTransactions, transactions } = useContext(TransactionContext);
   const { setUser } = useContext(UserContext);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
@@ -53,7 +56,7 @@ function HomePage() {
         <div className="mt-2 flex justify-center">
           <div className="w-full md:w-3/4 lg:w-1/2 mx-2 flex flex-row justify-between">
             <div className="text-md lg:text-lg">This month</div>
-            <div className="text-blue-500 underline cursor-pointer text-md lg:text-lg">
+            <div onClick={() => {navigate('/transactions')}} className="text-blue-500 underline cursor-pointer text-md lg:text-lg">
               see all
             </div>
           </div>

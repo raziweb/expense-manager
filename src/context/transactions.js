@@ -34,16 +34,28 @@ function TransactionProvider({ children }) {
       navigate("/login");
     }
 
-    setCategories([
-      { id: 1, type: "expense", name: "entertainment" },
-      { id: 2, type: "expense", name: "utilities" },
-      { id: 3, type: "expense", name: "rent" },
-      { id: 4, type: "expense", name: "food and dining" },
-      { id: 5, type: "expense", name: "transport" },
-      { id: 6, type: "income", name: "salary" },
-      { id: 7, type: "income", name: "freelancing" },
-      { id: 8, type: "income", name: "others" },
-    ]);
+    // setCategories([
+    //   { id: 1, type: "expense", name: "entertainment" },
+    //   { id: 2, type: "expense", name: "utilities" },
+    //   { id: 3, type: "expense", name: "rent" },
+    //   { id: 4, type: "expense", name: "food and dining" },
+    //   { id: 5, type: "expense", name: "transport" },
+    //   { id: 6, type: "income", name: "salary" },
+    //   { id: 7, type: "income", name: "freelancing" },
+    //   { id: 8, type: "income", name: "others" },
+    // ]);
+
+    try {
+      const response = await axios.get(
+        "http://localhost:8080/category",
+        authHeader
+      );
+      setCategories(response.data);
+      console.log("fetch Categories triggered");
+    } catch (e) {
+      console.log("cannot fetch Categories");
+      navigate("/login");
+    }
 
     setDisplayedDate(new Date());
   };

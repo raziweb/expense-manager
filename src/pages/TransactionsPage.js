@@ -3,12 +3,17 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import TransactionContext from "../context/transactions";
 import Navbar from "../components/Navbar";
 import TransactionList from "../components/TransactionList";
+import { useNavigate } from "react-router-dom";
 
 function TransactionsPage() {
   // const [displayedDate, setDisplayedDate] = useState(new Date());
 
   const { transactions, fetchTransactionsForGivenMonth, displayedDate, previousMonth, nextMonth } =
     useContext(TransactionContext);
+
+  const navigate = useNavigate();
+
+  const noData = (transactions.length === 0)?true:false;
 
   // const previousMonth = () => {
   //   const previousMonthDate = new Date(displayedDate);
@@ -52,8 +57,20 @@ function TransactionsPage() {
           />
         </div>
       </div>
-      <div className="flex justify-center mt-4">
-        <p className="w-full md:w-1/2 mx-2 font-semibold">All Transactions</p>
+
+      {noData && (
+        <div className="flex justify-center">
+          <div className="mt-6 italic">No transactions for this month</div>
+        </div>
+      )}
+
+      <div className={`${(noData)?"hidden":"block"} flex justify-center mt-4`}>
+        <div className="w-full md:w-3/4 lg:w-1/2 mx-2 flex justify-between">
+          <p className="font-semibold">All Transactions</p>
+          <p onClick={() => {navigate('/analysis')}} className="text-blue-500 underline cursor-pointer">Analysis</p>
+        </div>
+        {/* <p className="w-full md:w-1/2 mx-2 font-semibold">All Transactions</p>
+        <p>Analysis</p> */}
       </div>
 
       <div>

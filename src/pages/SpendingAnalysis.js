@@ -7,8 +7,13 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 function SpendingAnalysis() {
   // const [displayedDate, setDisplayedDate] = useState(new Date());
 
-  const { transactions, fetchTransactionsForGivenMonth, displayedDate, previousMonth, nextMonth } =
-    useContext(TransactionContext);
+  const {
+    transactions,
+    fetchTransactionsForGivenMonth,
+    displayedDate,
+    previousMonth,
+    nextMonth,
+  } = useContext(TransactionContext);
 
   const expenseData = transactions
     .filter((transaction) => {
@@ -39,6 +44,8 @@ function SpendingAnalysis() {
     totalExpense += expense.amount;
   });
 
+  const showExpenseAnalysis = totalExpense ? true : false;
+
   const incomeData = transactions
     .filter((transaction) => {
       return transaction.category.type === "income";
@@ -67,6 +74,8 @@ function SpendingAnalysis() {
   groupedIncomeData.forEach((income) => {
     totalIncome += income.amount;
   });
+
+  const showIncomeAnalysis = totalIncome ? true : false;
 
   // const previousMonth = () => {
   //   const previousMonthDate = new Date(displayedDate);
@@ -111,7 +120,9 @@ function SpendingAnalysis() {
       <div className="flex justify-center my-4">
         <div className="flex justify-around w-full md:w-3/4">
           <FaChevronLeft
-            onClick={() => {previousMonth()}}
+            onClick={() => {
+              previousMonth();
+            }}
             className="text-2xl my-auto cursor-pointer"
           />
           <p className="text-xl">
@@ -119,22 +130,34 @@ function SpendingAnalysis() {
             {displayedDate.getFullYear()}
           </p>
           <FaChevronRight
-            onClick={() => {nextMonth()}}
+            onClick={() => {
+              nextMonth();
+            }}
             className="text-2xl my-auto cursor-pointer"
           />
         </div>
       </div>
 
-      <div className="flex justify-center">
+      {/* <div className="flex justify-center">
         <p className="text-lg font-semibold mt-6 underline underline-offset-1">
           Spending Analysis
         </p>
-      </div>
+      </div> */}
 
-      <div className="flex justify-center">
+      {showExpenseAnalysis === false && showIncomeAnalysis === false && (
+        <div className="flex justify-center">
+          <div className="mt-6 italic">No transactions to analyze</div>
+        </div>
+      )}
+
+      <div
+        className={`${
+          showExpenseAnalysis ? "block" : "hidden"
+        } flex justify-center`}
+      >
         <div className="flex flex-col md:flex-row md:justify-around w-full md:w-3/4 mt-4">
           <div className="w-full md:w-1/2">
-            <ResponsiveContainer width="100%" height={350}>
+            <ResponsiveContainer width="100%" height={250}>
               <PieChart>
                 <Pie
                   dataKey="amount"
@@ -150,7 +173,7 @@ function SpendingAnalysis() {
               </PieChart>
             </ResponsiveContainer>
           </div>
-          <div className="flex-col w-full md:w-1/2 py-16">
+          <div className="flex-col w-full md:w-1/2 py-8">
             <div className="flex justify-between px-16 mb-2">
               <p className="text-lg font-bold">Category</p>
               <p className="text-lg font-bold">Amount</p>
@@ -164,16 +187,20 @@ function SpendingAnalysis() {
         </div>
       </div>
 
-      <div className="flex justify-center">
+      {/* <div className="flex justify-center">
         <p className="text-lg font-semibold mt-6 underline underline-offset-1">
           Income Analysis
         </p>
-      </div>
+      </div> */}
 
-      <div className="flex justify-center">
+      <div
+        className={`${
+          showIncomeAnalysis ? "block" : "hidden"
+        } flex justify-center`}
+      >
         <div className="flex flex-col md:flex-row md:justify-around w-full md:w-3/4 mt-4">
           <div className="w-full md:w-1/2">
-            <ResponsiveContainer width="100%" height={350}>
+            <ResponsiveContainer width="100%" height={250}>
               <PieChart>
                 <Pie
                   dataKey="amount"
@@ -189,7 +216,7 @@ function SpendingAnalysis() {
               </PieChart>
             </ResponsiveContainer>
           </div>
-          <div className="flex-col w-full md:w-1/2 py-16">
+          <div className="flex-col w-full md:w-1/2 py-8">
             <div className="flex justify-between px-16 mb-2">
               <p className="text-lg font-bold">Category</p>
               <p className="text-lg font-bold">Amount</p>
