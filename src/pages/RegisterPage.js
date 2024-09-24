@@ -10,6 +10,8 @@ function RegisterPage() {
   const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
+  const API_URL = process.env.REACT_APP_API_URL;
+
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
   };
@@ -26,7 +28,7 @@ function RegisterPage() {
     };
     try {
       const response = await axios.post(
-        "http://localhost:8080/register",
+        `${API_URL}/register`,
         formData
       );
       const user = {
@@ -35,6 +37,7 @@ function RegisterPage() {
       };
       setUser(user);
       localStorage.setItem("token", response.data.jwt);
+      localStorage.setItem("user", JSON.stringify(user));
       navigate("/");
     } catch (e) {
       setPassword("");

@@ -13,6 +13,8 @@ function TransactionProvider({ children }) {
   const navigate = useNavigate();
   const { user } = useContext(UserContext); 
 
+  const API_URL = process.env.REACT_APP_API_URL;
+
   const token = localStorage.getItem("token");
 
   const authHeader = {
@@ -24,34 +26,20 @@ function TransactionProvider({ children }) {
   const fetchTransactions = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8080/hometransactions",
+        `${API_URL}/hometransactions`,
         authHeader
       );
       setTransactions(response.data);
-      console.log("fetch transactions triggered");
     } catch (e) {
-      console.log("cannot fetch transactions");
       navigate("/login");
     }
 
-    // setCategories([
-    //   { id: 1, type: "expense", name: "entertainment" },
-    //   { id: 2, type: "expense", name: "utilities" },
-    //   { id: 3, type: "expense", name: "rent" },
-    //   { id: 4, type: "expense", name: "food and dining" },
-    //   { id: 5, type: "expense", name: "transport" },
-    //   { id: 6, type: "income", name: "salary" },
-    //   { id: 7, type: "income", name: "freelancing" },
-    //   { id: 8, type: "income", name: "others" },
-    // ]);
-
     try {
       const response = await axios.get(
-        "http://localhost:8080/category",
+        `${API_URL}/category`,
         authHeader
       );
       setCategories(response.data);
-      console.log("fetch Categories triggered");
     } catch (e) {
       console.log("cannot fetch Categories");
       navigate("/login");
@@ -77,7 +65,7 @@ function TransactionProvider({ children }) {
     };
 
     const response = await axios.post(
-      "http://localhost:8080/transactions",
+      `${API_URL}/transactions`,
       newTransaction,
       authHeader
     );
@@ -101,7 +89,7 @@ function TransactionProvider({ children }) {
     };
 
     const response = await axios.put(
-      `http://localhost:8080/transactions/${id}`,
+      `${API_URL}/transactions/${id}`,
       editedTransaction,
       authHeader
     );
@@ -118,7 +106,7 @@ function TransactionProvider({ children }) {
 
   const deleteTransaction = async (id) => {
     const response = await axios.delete(
-      `http://localhost:8080/transactions/${id}`,
+      `${API_URL}/transactions/${id}`,
       authHeader
     );
 
@@ -132,7 +120,7 @@ function TransactionProvider({ children }) {
   const fetchTransactionsForGivenMonth = async (year, month) => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/transactions/${year}/${month}`,
+        `${API_URL}/transactions/${year}/${month}`,
         authHeader
       );
       setTransactions(response.data);

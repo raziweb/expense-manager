@@ -10,6 +10,8 @@ function LoginPage() {
   const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
+  const API_URL = process.env.REACT_APP_API_URL;
+
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
   };
@@ -26,7 +28,7 @@ function LoginPage() {
     };
     try {
       const response = await axios.post(
-        "http://localhost:8080/authenticate",
+        `${API_URL}/authenticate`,
         formData
       );
       const user = {
