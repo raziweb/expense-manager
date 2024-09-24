@@ -10,7 +10,7 @@ function LoginPage() {
   const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
-  const API_URL = process.env.REACT_APP_API_URL;
+  const API_URL = "http://expense-manager-backend-env.eba-bitwkgrd.ap-south-1.elasticbeanstalk.com";
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
