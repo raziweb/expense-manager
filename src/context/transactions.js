@@ -13,7 +13,7 @@ function TransactionProvider({ children }) {
   const navigate = useNavigate();
   const { user } = useContext(UserContext); 
 
-  const API_URL = "http://expense-manager-backend-env.eba-bitwkgrd.ap-south-1.elasticbeanstalk.com";
+  const API_URL = "https://exp-mngr-env.eba-jqeyayyj.ap-south-1.elasticbeanstalk.com";
 
   const token = localStorage.getItem("token");
 
