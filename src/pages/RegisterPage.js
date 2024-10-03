@@ -10,7 +10,7 @@ function RegisterPage() {
   const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
-  const API_URL = "https://exp-mngr-env.eba-jqeyayyj.ap-south-1.elasticbeanstalk.com";
+  const API_URL = "https://expensemanager-lao2.onrender.com";
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
