@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 function RegisterPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
@@ -22,6 +23,7 @@ function RegisterPage() {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
     const formData = {
       username: username,
       password: password,
@@ -36,10 +38,12 @@ function RegisterPage() {
         userId: response.data.userId,
       };
       setUser(user);
+      setLoading(false);
       localStorage.setItem("token", response.data.jwt);
       localStorage.setItem("user", JSON.stringify(user));
       navigate("/");
     } catch (e) {
+      setLoading(false);
       setPassword("");
       setUsername("");
       alert("Incorrect username or password");
@@ -77,8 +81,9 @@ function RegisterPage() {
             />
           </div>
           <div className="m-2 flex justify-center">
-            <button className="w-full p-1 bg-blue-800 shadow-md rounded text-white mt-2">
-              Continue
+          <button className="w-full p-1 bg-blue-800 shadow-md rounded text-white mt-2 h-8 flex flex-row justify-center">
+              {loading && <div className="loader my-auto"></div>}
+              {!loading && <div>Continue</div>}
             </button>
           </div>
         </form>

@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
@@ -22,15 +23,13 @@ function LoginPage() {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
     const formData = {
       username: username,
       password: password,
     };
     try {
-      const response = await axios.post(
-        `${API_URL}/authenticate`,
-        formData
-      );
+      const response = await axios.post(`${API_URL}/authenticate`, formData);
       const user = {
         username: response.data.username,
         userId: response.data.userId,
@@ -38,10 +37,12 @@ function LoginPage() {
       setUser(user);
       localStorage.setItem("token", response.data.jwt);
       localStorage.setItem("user", JSON.stringify(user));
+      setLoading(false);
       navigate("/");
     } catch (e) {
       setPassword("");
       setUsername("");
+      setLoading(false);
       alert("Incorrect username or password");
     }
   };
@@ -77,8 +78,9 @@ function LoginPage() {
             />
           </div>
           <div className="m-2 flex justify-center">
-            <button className="w-full p-1 bg-blue-800 shadow-md rounded text-white mt-2">
-              Login
+            <button className="w-full p-1 bg-blue-800 shadow-md rounded text-white mt-2 h-8 flex flex-row justify-center">
+              {loading && <div className="loader my-auto"></div>}
+              {!loading && <div>Login</div>}
             </button>
           </div>
         </form>
