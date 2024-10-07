@@ -32,7 +32,7 @@ function Navbar() {
           <span className="hidden md:inline">Transactions</span>{" "}
           <GrTransaction className="inline text-2xl md:text-base" />
         </div>
-        <div className="mr-10 cursor-pointer">
+        <div onClick={() => {navigate('/categories')}} className="mr-10 cursor-pointer">
           <span className="hidden md:inline">Categories</span>
           <MdCategory className="inline text-2xl md:text-base" />
         </div>

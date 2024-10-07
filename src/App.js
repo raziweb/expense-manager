@@ -1,14 +1,12 @@
-import Navbar from "./components/Navbar";
 import HomePage from "./pages/HomePage";
 import { TransactionProvider } from "./context/transactions";
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
-import { UserContext, UserProvider } from "./context/user";
-import { useContext } from "react";
 import SpendingAnalysis from "./pages/SpendingAnalysis";
 import TransactionsPage from "./pages/TransactionsPage";
+import CategoriesPage from "./pages/CategoriesPage";
 
 function App() {
   return (
@@ -38,6 +36,14 @@ function App() {
             element={
               <TransactionProvider>
                 <TransactionsPage />
+              </TransactionProvider>
+            }
+          />
+          <Route
+            path="/categories"
+            element={
+              <TransactionProvider>
+                <CategoriesPage />
               </TransactionProvider>
             }
           />
