@@ -53,6 +53,11 @@ function RegisterPage() {
   return (
     <div className="flex-col">
       <div className="flex justify-center">
+        <div className="m-4">
+          <p className="text-xs">Visiting for the first time? Please be patient, loading can take up to 50s. (using the cheapest server possible 😭)</p>
+        </div>
+      </div>
+      <div className="flex justify-center">
         <form
           onSubmit={handleFormSubmit}
           className="border p-4 rounded-lg shadow-lg flex-col w-[280px]"
