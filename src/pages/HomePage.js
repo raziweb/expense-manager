@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 function HomePage() {
   const [showTransactionModal, setShowTransactionModal] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const { fetchTransactions, transactions } = useContext(TransactionContext);
   const { setUser } = useContext(UserContext);
@@ -18,8 +19,13 @@ function HomePage() {
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
-    setUser(user);
-    fetchTransactions();
+    if (user) {
+      setUser(user);
+      fetchTransactions();
+      setLoading(false);
+    } else {
+      navigate("/login");
+    }
   }, []);
 
   const handleOpenModal = () => {
@@ -56,11 +62,21 @@ function HomePage() {
         <div className="mt-2 flex justify-center">
           <div className="w-full md:w-3/4 lg:w-1/2 mx-2 flex flex-row justify-between">
             <div className="text-md lg:text-lg">This month</div>
-            <div onClick={() => {navigate('/transactions')}} className="text-blue-500 underline cursor-pointer text-md lg:text-lg">
+            <div
+              onClick={() => {
+                navigate("/transactions");
+              }}
+              className="text-blue-500 underline cursor-pointer text-md lg:text-lg"
+            >
               see all
             </div>
           </div>
         </div>
+        {loading && (
+          <div className="flex justify-center">
+            Loading...
+          </div>
+        )}
         <div>
           <TransactionList transactions={transactions} />
         </div>

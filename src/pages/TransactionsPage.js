@@ -6,34 +6,17 @@ import TransactionList from "../components/TransactionList";
 import { useNavigate } from "react-router-dom";
 
 function TransactionsPage() {
-  // const [displayedDate, setDisplayedDate] = useState(new Date());
-
-  const { transactions, fetchTransactionsForGivenMonth, displayedDate, previousMonth, nextMonth } =
-    useContext(TransactionContext);
+  const {
+    transactions,
+    fetchTransactionsForGivenMonth,
+    displayedDate,
+    previousMonth,
+    nextMonth,
+  } = useContext(TransactionContext);
 
   const navigate = useNavigate();
 
-  const noData = (transactions.length === 0)?true:false;
-
-  // const previousMonth = () => {
-  //   const previousMonthDate = new Date(displayedDate);
-  //   previousMonthDate.setMonth(previousMonthDate.getMonth() - 1);
-  //   setDisplayedDate(previousMonthDate);
-  //   fetchTransactionsForGivenMonth(
-  //     previousMonthDate.getFullYear(),
-  //     previousMonthDate.getMonth() + 1
-  //   );
-  // };
-
-  // const nextMonth = () => {
-  //   const nextMonthDate = new Date(displayedDate);
-  //   nextMonthDate.setMonth(nextMonthDate.getMonth() + 1);
-  //   setDisplayedDate(nextMonthDate);
-  //   fetchTransactionsForGivenMonth(
-  //     nextMonthDate.getFullYear(),
-  //     nextMonthDate.getMonth() + 1
-  //   );
-  // };
+  const noData = transactions.length === 0 ? true : false;
 
   return (
     <div>
@@ -44,7 +27,9 @@ function TransactionsPage() {
       <div className="flex justify-center my-4">
         <div className="flex justify-around w-full md:w-3/4">
           <FaChevronLeft
-            onClick={() => { previousMonth() }}
+            onClick={() => {
+              previousMonth();
+            }}
             className="text-2xl my-auto cursor-pointer"
           />
           <p className="text-xl">
@@ -52,7 +37,9 @@ function TransactionsPage() {
             {displayedDate.getFullYear()}
           </p>
           <FaChevronRight
-            onClick={() => {nextMonth()}}
+            onClick={() => {
+              nextMonth();
+            }}
             className="text-2xl my-auto cursor-pointer"
           />
         </div>
@@ -64,15 +51,23 @@ function TransactionsPage() {
         </div>
       )}
 
-      <div className={`${(noData)?"hidden":"block"} flex justify-center mt-4`}>
+      <div
+        className={`${noData ? "hidden" : "block"} flex justify-center mt-4`}
+      >
         <div className="w-full md:w-3/4 lg:w-1/2 mx-2 flex justify-between">
           <p className="font-semibold">All Transactions</p>
-          <p onClick={() => {navigate('/analysis')}} className="text-blue-500 underline cursor-pointer">Analysis</p>
+          <p
+            onClick={() => {
+              navigate("/analysis");
+            }}
+            className="text-blue-500 underline cursor-pointer"
+          >
+            Analysis
+          </p>
         </div>
         {/* <p className="w-full md:w-1/2 mx-2 font-semibold">All Transactions</p>
         <p>Analysis</p> */}
       </div>
-
       <div>
         <TransactionList transactions={transactions} />
       </div>
